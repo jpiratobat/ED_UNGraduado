@@ -1,35 +1,36 @@
-drop table if exists prerrequisitos;
-drop table if exists materias;
+DROP SCHEMA IF EXISTS graduacion;
+CREATE SCHEMA IF NOT EXISTS graduacion;
 
-create table materias (
-    id integer primary key,
-    codigo integer not null unique,
-    nombre text not null,
-    creditos integer not null,
-    semestre integer not null,
-    estado text not null default 'pendiente'
-        check (estado in ('vista', 'en_curso', 'pendiente'))
+USE graduacion;
+
+DROP TABLE IF EXISTS PlanEstudio;
+CREATE TABLE IF NOT EXISTS PlanEstudio( 
+    idPlan INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    nomPlan VARCHAR(100) NOT NULL
 );
 
-create table prerrequisitos (
-    materias_id integer not null,
-    requiere_id integer not null,
-    primary key (materias_id, requiere_id),
-    foreign key (materias_id) references materias(id),
-    foreign key (requiere_id) references materias(id)
+DROP TABLE IF EXISTS Materia;
+CREATE TABLE IF NOT EXISTS Materia (
+    idMateria INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    nomMateria VARCHAR(100) NOT NULL,
+    numCreditos INT NOT NULL,
 );
 
-insert into materias (codigo, nombre, creditos, semestre, estado) values
-(100001, 'Cálculo I',4, 1, 'vista'),
-(100002, 'Cálculo II',4, 2, 'pendiente'),
-(100003, 'Cálculo III',4, 3, 'pendiente');
+DROP TABLE IF EXISTS MateriaPorPlan;
+CREATE TABLE IF NOT EXISTS MateriaPorPlan (
+    idPlan INT NOT NULL;
+    idMateria INT NOT NULL;
+    PRIMARY KEY (idPlan, idMateria),
+    FOREIGN KEY (idPlan) REFERENCES PlanEstudio(idPlan),
+    FOREIGN KEY (idMateria) REFERENCES Materia(idMateria)
+);
 
-insert into prerrequisitos (materias_id, requiere_id) values
-(2, 1), (3, 2);
+DROP TABLE IF EXISTS Prerrequisito;
+CREATE TABLE IF NOT EXISTS Prerrequisito (
+    idMateria INT NOT NULL,
+    idPrerquisito INT NOT NULL,
+    PRIMARY KEY (idMateria, idPrerrequisito),
+    FOREIGN KEY (idPlan) REFERENCES PlanEstudio(idPlan),
+    FOREIGN KEY (idMateria) REFERENCES Materia(idMateria)
+);
 
-select
-    case when estado = 'vista' then 'Vistas' else 'No vistas' end as Grupo,
-    count(*) as Total,
-    group_concat(nombre, ', ') as Materias
-from materias
-group by Grupo;
