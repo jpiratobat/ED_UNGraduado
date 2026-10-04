@@ -1,4 +1,4 @@
-package com.UNGraduado.backend.util;
+package com.UNGraduado.backend.datastructures;
 
 public class Stack<T> {
     private Object[] elements;

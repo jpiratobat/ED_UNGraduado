@@ -1,7 +1,9 @@
-package com.UNGraduado.backend.util;
+package com.UNGraduado.backend.datastructures;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import com.UNGraduado.backend.datastructures.QueueSinglyLinkedList;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,4 +1,4 @@
-package com.UNGraduado.backend.util;
+package com.UNGraduado.backend.datastructures;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
