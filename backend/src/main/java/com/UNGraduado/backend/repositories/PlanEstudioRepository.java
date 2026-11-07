@@ -2,6 +2,7 @@ package com.UNGraduado.backend.repositories;
 
 import com.UNGraduado.backend.dto.PlanCreditosDTO;
 import com.UNGraduado.backend.models.PlanEstudio;
+import com.UNGraduado.backend.dto.MateriaDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import java.util.List;
@@ -15,7 +16,21 @@ public interface PlanEstudioRepository extends JpaRepository<PlanEstudio, Intege
      directamente a objetos com.graduacionunal.backend.dto.PlanCreditosDTO que contienen
      el nombre del plan y la suma total de créditos.
      */
+    
     @Query("""
+            SELECT new com.graduacionunal.backend.dto.MateriaDTO(
+                m.nomMateria,
+                m.numCreditos
+            )
+
+            FROM PlanEstudio p
+            JOIN p.materiasPorPlan mp
+            JOIN mp.materia m
+            WHERE p.idPlan = :idPlanEstudio
+            """)
+    List<MateriaDTO> obtenerMateriasDePlanEstudio(Integer idPlanEstudio);
+    
+     @Query("""
         SELECT new com.graduacionunal.backend.dto.PlanCreditosDTO(
             p.nomPlan, 
             SUM(m.numCreditos)
