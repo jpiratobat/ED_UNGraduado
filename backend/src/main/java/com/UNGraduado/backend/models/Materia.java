@@ -15,7 +15,6 @@ public class Materia {
 
     //Atributos de la tabla
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idMateria;
     
     @Column(name = "nomMateria", nullable = false, length = 100)

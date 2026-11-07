@@ -18,7 +18,6 @@ public class PlanEstudio {
 
     //Campos de la tabla
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idPlan;
 
     @Column(name = "nomPlan", length = 100, nullable = false)
