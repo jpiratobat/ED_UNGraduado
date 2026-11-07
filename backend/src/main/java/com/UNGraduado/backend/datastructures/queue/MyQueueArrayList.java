@@ -16,6 +16,7 @@ public class MyQueueArrayList<T> implements MyQueue<T> {
         rear = 0;
     }
 
+    @Override 
     public void enqueue(T item) {
         if (size == capacity) {
             // Si el size es igual a la capacidad se redimensiona
@@ -47,6 +48,7 @@ public class MyQueueArrayList<T> implements MyQueue<T> {
         arreglo = nuevoArreglo;
     }
 
+    @Override 
     public T dequeue() throws MyQueueUnderFlowException {
         if (isEmpty()) {
             throw new MyQueueUnderFlowException("No se puede hacer dequeue(): la cola está vacía");
@@ -60,6 +62,7 @@ public class MyQueueArrayList<T> implements MyQueue<T> {
         return valor;
     }
 
+    @Override 
     public T front() throws MyQueueUnderFlowException {
         if (isEmpty()) {
             throw new MyQueueUnderFlowException("No se puede hacer front(): la cola está vacía");
@@ -68,10 +71,12 @@ public class MyQueueArrayList<T> implements MyQueue<T> {
         return arreglo[front];
     }
 
+    @Override 
     public boolean isEmpty() {
         return size == 0;
     }
 
+    @Override 
     public int size() {
         return size;
     }
