@@ -2,9 +2,9 @@ package com.UNGraduado.backend.dto;
 
 public class PlanCreditosDTO {
     private String nomPlan;
-    private Integer totalCreditos;
+    private Long totalCreditos;
 
-    public PlanCreditosDTO(String nomPlan, Integer totalCreditos) {
+    public PlanCreditosDTO(String nomPlan, Long totalCreditos) {
         this.nomPlan = nomPlan;
         this.totalCreditos = totalCreditos;
     }
@@ -13,7 +13,7 @@ public class PlanCreditosDTO {
         return nomPlan;
     }
 
-    public Integer getTotalCreditos() {
+    public Long getTotalCreditos() {
         return totalCreditos;
     }
 }
