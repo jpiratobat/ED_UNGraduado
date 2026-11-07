@@ -28,4 +28,9 @@ public class PlanEstudioServiceImpl implements PlanEstudioService {
     public List<PlanCreditosDTO> obtenerCreditosTotalesPorPlan() {
         return planEstudioRepository.obtenerCreditosTotalesPorPlan();
     }
+    
+    @Override
+    public PlanEstudio obtenerPorId(Integer idPlanEstudio){
+        return planEstudioRepository.findById(idPlanEstudio).orElse(null);
+    }
 }
