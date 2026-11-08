@@ -13,13 +13,13 @@ DROP TABLE IF EXISTS Materia;
 CREATE TABLE IF NOT EXISTS Materia (
     idMateria INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     nomMateria VARCHAR(100) NOT NULL,
-    numCreditos INT NOT NULL,
+    numCreditos INT NOT NULL
 );
 
 DROP TABLE IF EXISTS MateriaPorPlan;
 CREATE TABLE IF NOT EXISTS MateriaPorPlan (
-    idPlan INT NOT NULL;
-    idMateria INT NOT NULL;
+    idPlan INT NOT NULL,
+    idMateria INT NOT NULL,
     PRIMARY KEY (idPlan, idMateria),
     FOREIGN KEY (idPlan) REFERENCES PlanEstudio(idPlan),
     FOREIGN KEY (idMateria) REFERENCES Materia(idMateria)
@@ -28,9 +28,8 @@ CREATE TABLE IF NOT EXISTS MateriaPorPlan (
 DROP TABLE IF EXISTS Prerrequisito;
 CREATE TABLE IF NOT EXISTS Prerrequisito (
     idMateria INT NOT NULL,
-    idPrerquisito INT NOT NULL,
+    idPrerrequisito INT NOT NULL,
     PRIMARY KEY (idMateria, idPrerrequisito),
-    FOREIGN KEY (idPlan) REFERENCES PlanEstudio(idPlan),
-    FOREIGN KEY (idMateria) REFERENCES Materia(idMateria)
+    FOREIGN KEY (idMateria) REFERENCES Materia(idMateria),
+    FOREIGN KEY (idPrerrequisito) REFERENCES Materia(idMateria)
 );
-
