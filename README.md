@@ -4,6 +4,7 @@ Proyecto orientado a la gestión de planes de estudio, materias y prerequisitos 
 
 ## Estructura del repositorio
 
+<<<<<<< HEAD
 ```text
 ED_UNGraduado/
 ├── .vscode/                 # Ajustes de VS Code
@@ -20,6 +21,12 @@ ED_UNGraduado/
 ├── Sql/                     # Diagrama y scripts de base de datos
 └── README.md
 ```
+=======
+## LINK VIDEO SEGUNDA ENTREGA
+https://youtu.be/ED8TqQvXHfs
+
+## Integrantes
+>>>>>>> d2d8041 (LINK DEL VIDEO - SEGUNDA ENTREGA)
 
 ## Componentes
 
