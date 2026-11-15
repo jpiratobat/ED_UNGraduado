@@ -1,72 +1,122 @@
-# ED_UNGraduado
+# UNGraduado
 
 Proyecto orientado a la gestión de planes de estudio, materias y prerequisitos académicos. La estructura actual del repositorio está organizada en tres bloques principales: configuración del editor, backend Java y base de datos SQL.
 
-## Estructura del proyecto
+## Estructura del repositorio
 
 ```text
 ED_UNGraduado/
-├── .vscode/
-│   └── settings.json
-├── backend/
-│   ├── pom.xml
-│   ├── mvnw
-│   ├── mvnw.cmd
+├── .vscode/                 # Ajustes de VS Code
+├── backend/                 # Aplicación Java y lógica de dominio
+│   ├── src/main/java/       # Modelos, servicios, repositorios y estructuras
+│   ├── src/main/resources/  # Configuración de Spring
+│   └── src/test/java/       # Pruebas
+├── frontend/                # Interfaz React construida con Vite
 │   └── src/
-│       ├── main/
-│       │   ├── java/com/UNGraduado/backend/
-│       │   └── resources/application.properties
-│       └── test/java/com/UNGraduado/backend/
-├── Sql/
-│   ├── ModeloRelacional.png
-│   ├── Sql_code
-│   └── Sql_dataInsertion
-├── README.md
-└── .git/
+│       ├── components/      # Componentes reutilizables
+│       ├── pages/           # Vistas de los planes
+│       ├── routes/          # Definición de rutas
+│       └── services/        # Clientes para llamadas HTTP
+├── Sql/                     # Diagrama y scripts de base de datos
+└── README.md
 ```
 
-## Descripción de cada carpeta
+## Componentes
 
-### `.vscode/`
-Contiene la configuración específica del editor para trabajar con el proyecto.
+### Frontend (`frontend/`)
 
-- `settings.json`: ajustes del entorno de VS Code; en este caso, habilita el análisis nulo automático para Java y mejora la experiencia de desarrollo.
+Interfaz desarrollada con React 19 y Vite. El código actual incluye:
 
-### `backend/`
-Es el módulo principal del sistema. Aquí se encuentra la API desarrollada en Java con Spring Boot.
+- `src/App.jsx`: flujo principal para seleccionar un plan, consultar materias, preparar una malla personalizada y ver materias inscritas o aprobadas. Valida prerrequisitos y un límite de créditos en la selección del semestre.
+- `src/pages/`: vistas para inicio, resumen del plan, materias, prerrequisitos, configuración y simulación de semestres.
+- `src/components/`: elementos reutilizables, como botones y componentes de plan académico.
+- `src/routes/AppRoutes.jsx`: definición de rutas para las vistas del plan.
+- `src/services/`: funciones para realizar solicitudes al backend.
+- Archivos CSS por componente y página, además de estilos globales.
 
-#### Subestructura
+La configuración por plan de materias por semestre se guarda en `localStorage`. El límite de créditos configurable aún no está habilitado en la pantalla.
 
-- `pom.xml`: configuración de Maven con dependencias del proyecto, versiones y elementos del build.
-- `src/main/java/`: código fuente de la aplicación.
-  - `BackendApplication.java`: clase principal del backend, encargada de iniciar Spring Boot.
-  - `com/UNGraduado/backend/datastructures/`: implementaciones de estructuras de datos como `Stack` y `QueueSinglyLinkedList`.
-- `src/main/resources/application.properties`: configuración general de la aplicación.
-- `src/test/java/`: pruebas del sistema.
-  - `models/`: entidades del dominio, tales como `Materia`, `PlanEstudio`, `MateriaPorPlan` y `Prerrequisito`.
-  - `datastructures/`: tests para verificar el comportamiento de las estructuras de datos.
+### Backend (`backend/`)
 
-#### Función
-Esta carpeta concentra la lógica de negocio y el modelo académico del proyecto. Permite representar materias, planes de estudio y sus relaciones, además de soportar estructuras auxiliares para algoritmos o manipulación de datos.
+Aplicación Java 17 con Spring Boot, Maven, Spring Data JPA y el conector de MySQL.
 
-### `Sql/`
-Contiene la parte de persistencia y definición del modelo de datos relacional.
+- `src/main/java/com/UNGraduado/backend/models/`: entidades JPA `Materia`, `PlanEstudio`, `MateriaPorPlan` y `Prerrequisito`.
+- `repositories/`: repositorios Spring Data para acceder a materias y planes.
+- `services/`: interfaces e implementaciones para operaciones de materias y planes, incluidos créditos totales y materias de un plan.
+- `dto/`: objetos de transferencia para representar materias y créditos de planes.
+- `datastructures/`: lista enlazada y colas propias; `KahnSemesterCalculator` usa estas estructuras y el algoritmo de Kahn para agrupar materias por semestre y detectar ciclos en los prerrequisitos.
+- `BackendApplication.java`: punto de entrada de Spring Boot.
+- `src/test/java/`: pruebas existentes para la aplicación y las estructuras de datos.
+- `pom.xml` y `mvnw`/`mvnw.cmd`: configuración Maven y wrapper para ejecutar Maven sin instalarlo globalmente.
 
-- `ModeloRelacional.png`: diagrama visual del esquema de la base de datos.
-- `Sql_code`: script SQL para crear la base de datos y las tablas principales.
-- `Sql_dataInsertion`: script de inserción de datos iniciales con materias, planes de estudio y prerequisitos.
+**Estado de integración:** no hay controladores REST en el código fuente actual. Por tanto, aunque los servicios y el frontend contienen llamadas HTTP, los endpoints que espera la interfaz todavía no están expuestos por el backend.
 
-#### Función
-Define la estructura relacional del sistema y sirve como base para almacenar la información académica que maneja el backend.
+### Base de datos (`Sql/`)
 
-## Objetivo general del proyecto
-El repositorio busca apoyar la administración académica mediante la representación de:
-- planes de estudio,
-- materias,
-- relación entre materias y planes,
-- y prerequisitos entre cursos.
+- `ModeloRelacional.png`: diagrama de las tablas `PlanEstudio`, `Materia`, `MateriaPorPlan` y `Prerequisito`.
+- `Sql_code`: crea el esquema `graduacion`, las tablas y sus claves primarias y foráneas.
+- `Sql_dataInsertion`: carga planes, materias, asociaciones y prerrequisitos de ejemplo.
 
-Actualmente, la base del proyecto ya incluye la parte del backend, la estructura del modelo de datos y la configuración mínima para comenzar a desarrollar la aplicación.
+**Precaución:** `Sql_code` comienza eliminando el esquema `graduacion` si ya existe. Ejecutarlo borra sus datos actuales; úsalo solo en un entorno de desarrollo y después de confirmar que no necesitas conservar esa base.
 
-## Estado actual
-El proyecto se encuentra en una fase inicial de desarrollo, pero con una estructura base ya definida y organizada para continuar con la implementación funcional.
+### Configuración del editor (`.vscode/`)
+
+`settings.json` contiene ajustes de VS Code para el análisis de nulidad de Java.
+
+## Requisitos
+
+- Java 17 o superior.
+- Node.js compatible con Vite 8 (Node.js 20.19+ o 22.12+ recomendado) y npm.
+- MySQL para crear y cargar el esquema si se va a trabajar con datos persistentes.
+- No es necesario instalar Maven globalmente: el wrapper está incluido en `backend/`.
+
+## Puesta en marcha
+
+### 1. Preparar la base de datos
+
+Desde un cliente MySQL, revisa `Sql/Sql_code` y ejecútalo solo si puedes reemplazar el esquema `graduacion`. Luego ejecuta `Sql/Sql_dataInsertion` para cargar los datos de ejemplo.
+
+### 2. Configurar y ejecutar el backend
+
+La configuración actual de `backend/src/main/resources/application.properties` solo establece el nombre de la aplicación; los parámetros de conexión a MySQL están comentados. Antes de iniciar el backend, configura allí la URL, el usuario y la contraseña de una base de datos local (no subas credenciales al repositorio).
+
+En Windows PowerShell:
+
+```powershell
+cd backend
+.\mvnw.cmd test
+.\mvnw.cmd spring-boot:run
+```
+
+En macOS o Linux:
+
+```bash
+cd backend
+./mvnw test
+./mvnw spring-boot:run
+```
+
+### 3. Instalar y ejecutar el frontend
+
+```bash
+cd frontend
+npm ci
+npm run dev
+```
+
+Vite muestra en la terminal la dirección local para abrir en el navegador. Otros comandos disponibles desde `frontend/`:
+
+```bash
+npm run build
+npm run lint
+npm run preview
+```
+
+## Pendientes conocidos
+
+- Completar los controladores REST requeridos por el frontend y conectar esas rutas con los servicios del backend.
+- Configurar la conexión a MySQL antes de iniciar la aplicación con persistencia.
+- Revisar la configuración del frontend: sus páginas usan `react-router-dom` y `react-icons`, que no aparecen declaradas en `frontend/package.json`; además, `Home.jsx` importa `src/components/SearchBar`, archivo que no está presente en la estructura actual. La aplicación principal montada por `src/main.jsx` es `App.jsx`, no `AppRoutes.jsx`.
+- Unificar las URL base del backend: los helpers usan por defecto el puerto `8080`, mientras que las páginas consultan `localhost:8088`.
+
+Por estos pendientes, el frontend y el backend aún no constituyen un flujo integrado listo para ejecución de extremo a extremo.
